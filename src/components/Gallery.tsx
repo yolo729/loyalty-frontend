@@ -102,7 +102,7 @@ export const Gallery = () => {
     <>
       <section
         id="about"
-        className="container  bg-white px-12 sm:py-12"
+        className="container bg-white px-0 sm:py-12"
       >
         <div>
           <Slider {...settings}>
