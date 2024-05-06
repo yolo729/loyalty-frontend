@@ -1,6 +1,7 @@
 import { Gallery } from "./Gallery";
 import { Lovelg } from "./Lovelg";
 import { Ordering } from "./Ordering";
+import { Location } from "./Location";
 
 export const Home = () => {
 
@@ -9,6 +10,7 @@ export const Home = () => {
       <Gallery />
       <Ordering />
       <Lovelg />
+      <Location />
     </>
   );
 };
