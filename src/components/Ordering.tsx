@@ -1,15 +1,14 @@
 import image from "../assets/wm-home-grocery-all.jpg";
 import image3 from "../assets/wm-home-grocery-110th.jpg";
 import image4 from "../assets/wm-home-catering-lunch.jpg";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUtensils } from '@fortawesome/free-solid-svg-icons';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon, } from '@fortawesome/react-fontawesome';
+import { faUtensils, faShoppingCart, IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import '../App.css'
 
 interface FeatureProps {
   description: string;
   image: string;
-  icon: string;
+  icon: IconDefinition;
 }
 
 const features: FeatureProps[] = [

@@ -22,6 +22,7 @@ interface RouteProps {
   label: string;
 }
 
+
 const routeList: RouteProps[] = [
   {
     href: "#WESTSIDE REWARDS",
@@ -63,6 +64,8 @@ const routeList: RouteProps[] = [
 ];
 
 export const Navbar = () => {
+
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
     <header className="top-0 z-40 w-full dark:border-b-slate-700">
