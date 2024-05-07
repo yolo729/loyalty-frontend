@@ -109,6 +109,7 @@ export const Gallery = () => {
             {Carousel.map(({ title, image }: CarouselProps) => (
               <div>
                 <img
+                  key={image.charAt(image.length - 1)}
                   src={image}
                   alt={title}
                 />

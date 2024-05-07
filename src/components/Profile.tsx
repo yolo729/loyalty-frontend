@@ -1,6 +1,6 @@
 import ReCAPTCHA from 'react-google-recaptcha'
 import 'react-toastify/dist/ReactToastify.css';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
@@ -20,6 +20,27 @@ export const Profile = (props: any) => {
 		address2: "",
 	});
 	const his = useHistory();
+
+	useEffect(() => {
+		const user_id = localStorage.getItem("userId");
+		axios.get(`${apiUrl}/users/${user_id}`)
+			.then((userdata) => {
+				console.log(userdata);
+				return;
+			})
+			.catch(error => {
+				if (error.response) {
+					props.useToast({
+						message: 'Not correct the mail or password',
+						type: 'error'
+					});
+				}
+			});
+	}, [])
+
+	const onDel = async (e: any) => {
+		alert(e);
+	}
 
 	const onSub = async (e: any) => {
 		e.preventDefault();
@@ -73,7 +94,7 @@ export const Profile = (props: any) => {
 	return (
 		<section className="container bg-white">
 			<div className="p-8 w-full my-16 pt-8 p-32">
-				<h2 className="text-[#173B4C] mb-6 text-center text-3xl md:text-4xl font-bold">New Account</h2>
+				<h2 className="text-[#173B4C] mb-6 text-center text-3xl md:text-4xl font-bold">Update Account</h2>
 				<form>
 					<div className="grid grid-cols-2 gap-4">
 						<div>
@@ -200,7 +221,8 @@ export const Profile = (props: any) => {
 					</div>
 					<ReCAPTCHA className='mt-5' sitekey='238valefhq923jks4jdkdzdgna93' />
 					<div className="text-center">
-						<button type="submit" onClick={onSub} className="p-3 text-white bg-[#173B4C] w-[10rem]">Create Account</button>
+						<button type="submit" onClick={onSub} className="p-3 text-white bg-[#173B4C] w-[10rem]">Update Account</button>
+						<button type="button" onClick={onDel} className="p-3 float-right text-white bg-red-400 w-[10rem]">Delete</button>
 					</div>
 				</form>
 			</div >

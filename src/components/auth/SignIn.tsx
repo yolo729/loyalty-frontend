@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import axios from 'axios';
 import 'react-toastify/dist/ReactToastify.css';
+import { jwtDecode } from "jwt-decode";
 import { useHistory } from 'react-router-dom';
 
 export const SignIn = (props: any) => {
@@ -16,8 +17,16 @@ export const SignIn = (props: any) => {
   const onSub = async (e: any) => {
     e.preventDefault();
     axios.post(`${apiUrl}/login`, user)
-      .then(() => {
-        localStorage.setItem("accessToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJlZHN0cm9uZ0BvdXRsb29rLmNvbSIsImlhdCI6MTcxNTE5Mzk2MywiZXhwIjoxNzE1MTk3NTYzfQ.2dhoQav95a4REwoPBJxDbvg_ugBIGZkEw5voG8r28WQ")
+      .then((response) => {
+        const accessToken = response.data.accessToken;
+        const decodedToken = jwtDecode(accessToken)as { payload: any }; // Decode JWT token
+        const { userId, name, email } = decodedToken?.payload; // Extract user information
+        // const payload: any = decodedToken.payload;
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("userId", userId); // Store user information
+        localStorage.setItem("userName", name);
+        localStorage.setItem("userEmail", email);
+
         props.useToast({
           message: 'Data saved successfully',
           type: 'success'
@@ -30,7 +39,7 @@ export const SignIn = (props: any) => {
             message: 'Not correct the mail or password',
             type: 'error'
           });
-        } 
+        }
       });
   }
 

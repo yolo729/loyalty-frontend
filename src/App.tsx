@@ -21,9 +21,9 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route exact path="/" component={Home} />
+          <Route path="/profile" component={Profile} />
           <Route path="/signin" render={(props) => <SignIn {...props} useToast={useToast} />} />
           <Route path="/signup" render={(props) => <SignUp {...props} useToast={useToast} />} />
-          <Route path="/signup" component={Profile} />
 
         </Switch>
       </BrowserRouter>
