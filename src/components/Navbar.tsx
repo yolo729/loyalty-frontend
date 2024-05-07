@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -12,7 +12,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { GitHubLogoIcon } from "@radix-ui/react-icons";
 import { buttonVariants } from "./ui/button";
 import { Menu } from "lucide-react";
 import cubeLeg from "../assets/logo.png";
@@ -21,7 +20,6 @@ interface RouteProps {
   href: string;
   label: string;
 }
-
 
 const routeList: RouteProps[] = [
   {
@@ -54,17 +52,22 @@ const routeList: RouteProps[] = [
   },
   {
     href: "#CONTACKS",
-    label: "CONTACKS",
+    label: "CONTACKS"
   },
-  {
-    href: "signin",
-    label: "SIGNIN",
-  },
+
 
 ];
 
 export const Navbar = () => {
 
+  const [token, setToken] = useState(false);
+  
+    useEffect(() => {
+      const Token = localStorage.getItem("accessToken");
+      if (Token) {
+        setToken(true);
+      }
+    }, [])
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
@@ -117,16 +120,6 @@ export const Navbar = () => {
                       {label}
                     </a>
                   ))}
-                  <a
-                    href="https://github.com/leoMirandaa/shadcn-landing-page.git"
-                    target="_blank"
-                    className={`w-[110px] border ${buttonVariants({
-                      variant: "secondary",
-                    })}`}
-                  >
-                    <GitHubLogoIcon className="mr-2 w-5 h-5" />
-                    Github
-                  </a>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -144,6 +137,25 @@ export const Navbar = () => {
                 {route.label}
               </a>
             ))}
+            {
+              (!token) ?
+                <a
+                  key="SIGNIN"
+                  href='signin'
+                  onClick={() => setIsOpen(false)}
+                  className={buttonVariants({ variant: "ghost" })}
+                >
+                  SIGNIN
+                </a> :
+                <a
+                  key="SIGNIN"
+                  href='signin'
+                  onClick={() => setIsOpen(false)}
+                  className={buttonVariants({ variant: "ghost" })}
+                >
+                  Welcome
+                </a>
+            }
           </nav>
         </NavigationMenuList>
       </NavigationMenu>

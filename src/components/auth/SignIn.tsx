@@ -17,8 +17,8 @@ export const SignIn = (props: any) => {
     axios.post('http://localhost:5000/login', user)
       .then((e) => {
        
-        localStorage.setItem("key", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJlZHN0cm9uZ0BvdXRsb29rLmNvbSIsImlhdCI6MTcxNTE5Mzk2MywiZXhwIjoxNzE1MTk3NTYzfQ.2dhoQav95a4REwoPBJxDbvg_ugBIGZkEw5voG8r28WQ")
-        console.log(e.data.accessToken);
+        localStorage.setItem("accessToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJlZHN0cm9uZ0BvdXRsb29rLmNvbSIsImlhdCI6MTcxNTE5Mzk2MywiZXhwIjoxNzE1MTk3NTYzfQ.2dhoQav95a4REwoPBJxDbvg_ugBIGZkEw5voG8r28WQ")
+        console.log(e.data.accessToken,'efefefef');
         props.useToast({
           message: 'Data saved successfully',
           type: 'success'

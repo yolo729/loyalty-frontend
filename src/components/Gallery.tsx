@@ -97,7 +97,7 @@ export const Gallery = () => {
     speed: 700,
     adaptiveHeight: true
   };
-  
+
   return (
     <>
       <section
