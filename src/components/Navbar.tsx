@@ -153,7 +153,7 @@ export const Navbar = () => {
                   onClick={() => setIsOpen(false)}
                   className={buttonVariants({ variant: "ghost" })}
                 >
-                  Welcome
+                  WELCOME
                 </a>
             }
           </nav>

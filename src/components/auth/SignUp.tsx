@@ -5,9 +5,7 @@ import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
 export const SignUp = (props: any) => {
-
-
-
+	const apiUrl = import.meta.env.VITE_API_URL;
 	const [user, setUser] = useState({
 		email: "",
 		password: "",
@@ -31,7 +29,7 @@ export const SignUp = (props: any) => {
 				type: 'warning'
 			});
 		} else {
-			axios.post('http://localhost:5000/users', user)
+			axios.post(`${apiUrl}/users`, user)
 				.then(() => {
 					props.useToast({
 						message: 'Data saved successfully',

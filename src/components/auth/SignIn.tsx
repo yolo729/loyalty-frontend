@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useHistory } from 'react-router-dom';
 
 export const SignIn = (props: any) => {
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   const [user, setUser] = useState({
     email: "",
@@ -14,11 +15,9 @@ export const SignIn = (props: any) => {
 
   const onSub = async (e: any) => {
     e.preventDefault();
-    axios.post('http://localhost:5000/login', user)
-      .then((e) => {
-       
+    axios.post(`${apiUrl}/login`, user)
+      .then(() => {
         localStorage.setItem("accessToken", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJlZHN0cm9uZ0BvdXRsb29rLmNvbSIsImlhdCI6MTcxNTE5Mzk2MywiZXhwIjoxNzE1MTk3NTYzfQ.2dhoQav95a4REwoPBJxDbvg_ugBIGZkEw5voG8r28WQ")
-        console.log(e.data.accessToken,'efefefef');
         props.useToast({
           message: 'Data saved successfully',
           type: 'success'
