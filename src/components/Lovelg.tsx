@@ -14,7 +14,7 @@ export const Lovelg = () => {
         />
 
         <div>
-          <p className="text-muted-foreground text-xl mt-4 mb-8 ">
+          <p className="text-muted-foreground text-xl text-white mt-4 mb-8 ">
             Since 1977, we have been deeply engrained in the fabric of Manhattan. Each of our locations enjoys a remarkably loyal following, which is no surprise; it’s a direct result of the fact that the Zoitas family takes great pride in every aspect of their business. Our mission is simple: to become your favorite neighborhood food market and caterer of choice by offering the highest quality foods and hard-to-find products supported by friendly, personalized, efficient service.
           </p>
         </div>

@@ -40,7 +40,7 @@ export const Ordering = () => {
       id="features"
       className="container bg-white sm:py-2"
     >
-      <h2 className="text-3xl lg:text-4xl font-bold md:text-center">
+      <h2 className="m-[2%] text-3xl lg:text-4xl font-bold md:text-center">
         Online Ordering
       </h2>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pt-0 pb-16 p-36 text-center">
