@@ -27,20 +27,10 @@ export const SignIn = (props: any) => {
       .catch(error => {
         if (error.response) {
           props.useToast({
-            message: 'Backend error',
+            message: 'Not correct the mail or password',
             type: 'error'
           });
-        } else if (error.request) {
-          props.useToast({
-            message: 'Backend error',
-            type: 'error'
-          });
-        } else {
-          props.useToast({
-            message: 'Backend error',
-            type: 'error'
-          });
-        }
+        } 
       });
   }
 

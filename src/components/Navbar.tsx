@@ -61,13 +61,16 @@ const routeList: RouteProps[] = [
 export const Navbar = () => {
 
   const [token, setToken] = useState(false);
-  
-    useEffect(() => {
-      const Token = localStorage.getItem("accessToken");
-      if (Token) {
-        setToken(true);
-      }
-    }, [])
+  console.log(token)
+  useEffect(() => {
+    const Token = localStorage.getItem("accessToken");
+    console.log(Token)
+    if (Token) {
+      setToken(true);
+    }
+  }, [])
+
+  console.log(token);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
@@ -138,23 +141,23 @@ export const Navbar = () => {
               </a>
             ))}
             {
-              (!token) ?
-                <a
+              !token ?
+                (<a
                   key="SIGNIN"
                   href='signin'
                   onClick={() => setIsOpen(false)}
                   className={buttonVariants({ variant: "ghost" })}
                 >
                   SIGNIN
-                </a> :
-                <a
+                </a>) :
+                (<a
                   key="SIGNIN"
                   href='signin'
                   onClick={() => setIsOpen(false)}
                   className={buttonVariants({ variant: "ghost" })}
                 >
                   WELCOME
-                </a>
+                </a>)
             }
           </nav>
         </NavigationMenuList>
