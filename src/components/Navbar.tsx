@@ -149,14 +149,16 @@ export const Navbar = () => {
                 SIGNIN
               </a>
             ) : (
-              <a
-                key="SIGNIN"
-                href="signin"
-                onClick={() => setIsOpen(false)}
-                className={buttonVariants({ variant: "ghost" })}
-              >
-                Welcome
-              </a>
+              <div className="text-[red]">
+                <a
+                  key="SIGNIN"
+                  href="/"
+                  onClick={() => setIsOpen(false)}
+                  className={buttonVariants({ variant: "ghost" })}
+                >
+                  WELCOME
+                </a>
+              </div>
             )}
           </nav>
         </NavigationMenuList>

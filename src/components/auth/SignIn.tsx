@@ -3,22 +3,10 @@ import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from "jwt-decode";
 import { useHistory } from "react-router-dom";
-import {
-  // TokenResponse,
-  // hasGrantedAllScopesGoogle,
-  useGoogleLogin,
-} from "@react-oauth/google";
+import { useGoogleLogin } from "@react-oauth/google";
 
 export const SignIn = (props: any) => {
   const apiUrl = import.meta.env.VITE_API_URL;
-
-  // const [gToken, setGToken] = useState<TokenResponse>({
-  //   access_token: "",
-  //   expires_in: 7200,
-  //   prompt: "",
-  //   token_type: "",
-  //   scope: "",
-  // });
 
   const [user, setUser] = useState({
     email: "",
@@ -75,7 +63,7 @@ export const SignIn = (props: any) => {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async ({ code }) => {
-      const tokens = await axios
+      await axios
         .post("http://localhost:5000/api/auth/google", {
           code,
         })
@@ -112,7 +100,7 @@ export const SignIn = (props: any) => {
 
   return (
     <section className="container bg-[whitesmoke]">
-      <div className="grid lg:grid-cols-[1fr,1fr] gap-8 place-items-center pt-0 p-32">
+      <div className="pt-[5%] grid lg:grid-cols-[1fr,1fr] gap-8 place-items-center pt-0 p-32">
         <div>
           <h1 className="text-3xl md:text-5xl font-bold">Sign In</h1> <br />
           <div className="bg-white rounded-lg p-5 flex shadow-lg max-w-3xl">
