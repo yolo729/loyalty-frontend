@@ -5,6 +5,7 @@ import { useHistory } from "react-router-dom";
 
 export const Profile = (props: any) => {
   const apiUrl = import.meta.env.VITE_API_URL;
+  console.log(apiUrl);
   const [showModal, setShowModal] = useState(false);
   const [user, setUser] = useState({
     email: "",
@@ -24,7 +25,8 @@ export const Profile = (props: any) => {
       },
     ],
   });
-
+  const [showInput, setShowInput] = useState(false);
+  const [value, setValue] = useState("");
   const his = useHistory();
 
   useEffect(() => {
@@ -44,8 +46,56 @@ export const Profile = (props: any) => {
       });
   }, []);
 
-  const onDel = async (e: any) => {
-    alert(e);
+  const [otherValue, setOtherValue] = useState("");
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    const reason = otherValue == "" ? value : otherValue;
+    console.log("reason", reason);
+
+    axios
+      .put(`${apiUrl}/delete`, { reason: reason, user_id: user.id })
+      .then(() => {
+        props.useToast({
+          message: "Data Deleted successfully",
+          type: "success",
+        });
+        localStorage.clear();
+        his.push("/");
+      })
+      .catch((error) => {
+        if (error.response) {
+          props.useToast({
+            message: "Backend error",
+            type: "error",
+          });
+        } else if (error.request) {
+          props.useToast({
+            message: "Backend error",
+            type: "error",
+          });
+        } else {
+          props.useToast({
+            message: "Backend error",
+            type: "error",
+          });
+        }
+      });
+  };
+
+  const handleChange = (event: any) => {
+    const selectedValue = event.target.value;
+    setValue(selectedValue);
+    setShowInput(selectedValue === "other");
+    if (selectedValue !== "other") {
+      setOtherValue("");
+      setShowInput(false);
+    } else {
+      setShowInput(true);
+    }
+  };
+
+  const handleInputChange = (event: any) => {
+    setOtherValue(event.target.value);
   };
 
   const onSub = async (e: any) => {
@@ -148,7 +198,7 @@ export const Profile = (props: any) => {
                 CONFIRM PASSWORD
               </label>
               <input
-                type="confirm"
+                type="password"
                 id="confirm"
                 onChange={userInput}
                 name="confirm"
@@ -405,54 +455,94 @@ export const Profile = (props: any) => {
               Delete
             </button>
           </div>
-          {showModal ? (
-            <>
-              <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                  {/*content*/}
-                  <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                    {/*header*/}
-                    <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
-                      <h3 className="text-3xl font-semibold">Modal Title</h3>
-                      <button
-                        className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                        onClick={() => setShowModal(false)}
-                      >
-                        <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                          ×
-                        </span>
-                      </button>
-                    </div>
-                    {/*body*/}
+        </form>
+        {showModal ? (
+          <>
+            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                {/*content*/}
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                  {/*header*/}
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowModal(false)}
+                  >
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                  {/*body*/}
+                  <form onSubmit={handleSubmit}>
                     <div className="relative p-6 flex-auto">
                       <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
                         Are you sure windows?
                       </p>
+                      <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
+                        Reason for leaving
+                      </p>
+                      <div className="grid grid-cols-1 pt-5 gap-4">
+                        <div>
+                          <input
+                            type="radio"
+                            checked={value === "Moving"}
+                            onChange={handleChange}
+                            value="Moving"
+                          />
+                          <span className="p-2">Moving</span>
+                        </div>
+                        <div>
+                          <input
+                            type="radio"
+                            checked={value === "Too many message"}
+                            onChange={handleChange}
+                            value="Too many message"
+                          />
+                          <span className="p-2">Too many message</span>
+                        </div>
+                        <div>
+                          <input
+                            type="radio"
+                            checked={value === "other"}
+                            onChange={handleChange}
+                            value="other"
+                          />
+                          <span className="p-2">other</span>
+                          <input
+                            onChange={handleInputChange}
+                            disabled={!showInput}
+                            type="text"
+                            id="other"
+                            value={otherValue}
+                            name="other"
+                            className="mt-1 p-2 w-full border text-gray-800"
+                            required
+                          />
+                        </div>
+                      </div>
                     </div>
                     {/*footer*/}
                     <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
                       <button
                         className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                        type="button"
-                        onClick={() => setShowModal(false)}
+                        type="submit"
                       >
-                        Close
+                        Yes
                       </button>
                       <button
-                        className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                        className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                         type="button"
                         onClick={() => setShowModal(false)}
                       >
-                        Save Changes
+                        No
                       </button>
                     </div>
-                  </div>
+                  </form>
                 </div>
               </div>
-              <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-            </>
-          ) : null}
-        </form>
+            </div>
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </>
+        ) : null}
       </div>
     </section>
   );

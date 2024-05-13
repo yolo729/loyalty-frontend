@@ -111,13 +111,13 @@ export const SignIn = (props: any) => {
   });
 
   return (
-    <section className="container bg-white ">
+    <section className="container bg-[whitesmoke]">
       <div className="grid lg:grid-cols-[1fr,1fr] gap-8 place-items-center pt-0 p-32">
         <div>
           <h1 className="text-3xl md:text-5xl font-bold">Sign In</h1> <br />
-          <div className="bg-black rounded-lg p-5 flex shadow-lg max-w-3xl">
+          <div className="bg-white rounded-lg p-5 flex shadow-lg max-w-3xl">
             <div className=" px-4">
-              <p className="text-3xl md:text-3xl text-white font-bold">
+              <p className="text-3xl md:text-3xl text-black font-bold">
                 Enter your email address to log in or create an account
               </p>
               <form onSubmit={onSub} className="mt-6">
@@ -152,7 +152,7 @@ export const SignIn = (props: any) => {
                 </div>
                 <button
                   type="submit"
-                  className="w-full block bg-yellow-600 hover:bg-yellow-400 focus:bg-yellow-400 text-white font-semibold rounded-full
+                  className="transform hover:scale-[1.1] duration-500 w-full block bg-[gray] hover:bg-[#E5E7EB] focus:bg-[#E5E7EB] text-white font-semibold rounded-full
                 px-4 py-3 mt-6"
                 >
                   Countinue
@@ -169,7 +169,7 @@ export const SignIn = (props: any) => {
                 <br />
                 <span>Sale, Terms of Service, and Privacy Policy.</span>
               </p>
-              <div className="bg-black p-5 shadow-lg">
+              <div className="p-5 shadow-lg">
                 <div className=" px-4">
                   <button
                     onClick={() => googleLogin()}
@@ -250,8 +250,8 @@ export const SignIn = (props: any) => {
                   </button>{" "}
                   <br />
                   <button
-                    style={{ border: "1px solid white" }}
-                    className="transform hover:scale-[1.1] duration-500 border-[#243c5a] flex justify-around items-center text-center w-full my-0 mx-auto py-2 px-2 rounded-full font-medium shadow-lg text-white rounded bg-black hover:bg-four "
+                    style={{ border: "1px solid cadetblue" }}
+                    className="transform hover:scale-[1.1] duration-500 border-[#243c5a] flex justify-around items-center text-center w-full my-0 mx-auto py-2 px-2 rounded-full font-medium shadow-lg text-white rounded bg-[cadetblue] hover:bg-four "
                   >
                     <span className="w-5/6">Continue with Apple</span>
                     <svg
@@ -303,10 +303,13 @@ export const SignIn = (props: any) => {
             </button>
           </a>{" "}
           <br />
-          <div className="bg-black p-5 mt-2 shadow-lg">
+          <div className="bg-white rounded-lg p-5 mt-2 shadow-lg">
             <div className=" px-4">
-              <button className="flex justify-around items-center text-center w-full my-0 mx-auto py-2 px-2 rounded-full font-medium shadow-lg rounded bg-white hover:bg-four">
-                <span className="w-5/6">Sign up with Google</span>
+              <button
+                onClick={() => googleLogin()}
+                className="transform hover:scale-[1.1] duration-500 flex justify-around items-center text-center w-full my-0 mx-auto py-2 px-2 rounded-full font-medium shadow-lg rounded bg-white hover:bg-four"
+              >
+                <span className="w-5/6">Continue with Google</span>
                 <svg
                   className="h-6 w-6 mr-2"
                   xmlns="http://www.w3.org/2000/svg"
@@ -362,37 +365,29 @@ export const SignIn = (props: any) => {
                 </svg>
               </button>{" "}
               <br />
-              <button className="flex justify-around items-center text-center w-full my-0 mx-auto py-2 px-2 rounded-full font-medium shadow-lg rounded bg-white hover:bg-four">
-                <span className="w-5/6">Create with Facebook</span>
+              <button className="transform hover:scale-[1.1] duration-500 flex justify-around items-center text-center h-10 w-full my-0 mx-auto py-2 px-2 rounded-full font-medium shadow-lg text-black bg-[#3B4DD2] rounded bg-white hover:bg-four">
+                <span className="w-5/6">Continue with FaceBook</span>
                 <svg
-                  className="h-6 w-6 mr-2"
                   xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 48 48"
-                  version="1.1"
+                  width="40"
+                  viewBox="-204.79995 -341.33325 1774.9329 2047.9995"
                 >
-                  <g
-                    id="Icons"
-                    stroke="none"
-                    strokeWidth="1"
-                    fill="none"
-                    fillRule="evenodd"
-                  >
-                    <g
-                      id="Color-"
-                      transform="translate(-200.000000, -160.000000)"
-                      fill="#4460A0"
-                    >
-                      <path
-                        d="M225.638355,208 L202.649232,208 C201.185673,208 200,206.813592 200,205.350603 L200,162.649211 C200,161.18585 201.185859,160 202.649232,160 L245.350955,160 C246.813955,160 248,161.18585 248,162.649211 L248,205.350603 C248,206.813778 246.813769,208 245.350955,208 L233.119305,208 L233.119305,189.411755 L239.358521,189.411755 L240.292755,182.167586 L233.119305,182.167586 L233.119305,177.542641 C233.119305,175.445287 233.701712,174.01601 236.70929,174.01601 L240.545311,174.014333 L240.545311,167.535091 C239.881886,167.446808 237.604784,167.24957 234.955552,167.24957 C229.424834,167.24957 225.638355,170.625526 225.638355,176.825209 L225.638355,182.167586 L219.383122,182.167586 L219.383122,189.411755 L225.638355,189.411755 L225.638355,208 L225.638355,208 Z"
-                        id="Facebook"
-                      ></path>
-                    </g>
-                  </g>
+                  <path
+                    d="M1365.333 682.667C1365.333 305.64 1059.693 0 682.667 0 305.64 0 0 305.64 0 682.667c0 340.738 249.641 623.16 576 674.373V880H402.667V682.667H576v-150.4c0-171.094 101.917-265.6 257.853-265.6 74.69 0 152.814 13.333 152.814 13.333v168h-86.083c-84.804 0-111.25 52.623-111.25 106.61v128.057h189.333L948.4 880H789.333v477.04c326.359-51.213 576-333.635 576-674.373"
+                    fill="#1877f2"
+                  />
+                  <path
+                    d="M948.4 880l30.267-197.333H789.333V554.609C789.333 500.623 815.78 448 900.584 448h86.083V280s-78.124-13.333-152.814-13.333c-155.936 0-257.853 94.506-257.853 265.6v150.4H402.667V880H576v477.04a687.805 687.805 0 00106.667 8.293c36.288 0 71.91-2.84 106.666-8.293V880H948.4"
+                    fill="#fff"
+                  />
                 </svg>
               </button>{" "}
               <br />
-              <button className="flex justify-around items-center text-center w-full my-0 mx-auto py-2 px-2 rounded-full font-medium shadow-lg rounded bg-white hover:bg-four ">
-                <span className="w-5/6">Create with Apple</span>
+              <button
+                style={{ border: "1px solid cadetblue" }}
+                className="transform hover:scale-[1.1] duration-500 border-[#243c5a] flex justify-around items-center text-center w-full my-0 mx-auto py-2 px-2 rounded-full font-medium shadow-lg text-white rounded bg-[cadetblue] hover:bg-four "
+              >
+                <span className="w-5/6">Continue with Apple</span>
                 <svg
                   className="h-6 w-6 mr-2"
                   xmlns="http://www.w3.org/2000/svg"
@@ -418,6 +413,7 @@ export const SignIn = (props: any) => {
                         <path
                           d="M57.5708873,7282.19296 C58.2999598,7281.34797 58.7914012,7280.17098 58.6569121,7279 C57.6062792,7279.04 56.3352055,7279.67099 55.5818643,7280.51498 C54.905374,7281.26397 54.3148354,7282.46095 54.4735932,7283.60894 C55.6455696,7283.69593 56.8418148,7283.03894 57.5708873,7282.19296 M60.1989864,7289.62485 C60.2283111,7292.65181 62.9696641,7293.65879 63,7293.67179 C62.9777537,7293.74279 62.562152,7295.10677 61.5560117,7296.51675 C60.6853718,7297.73474 59.7823735,7298.94772 58.3596204,7298.97372 C56.9621472,7298.99872 56.5121648,7298.17973 54.9134635,7298.17973 C53.3157735,7298.17973 52.8162425,7298.94772 51.4935978,7298.99872 C50.1203933,7299.04772 49.0738052,7297.68074 48.197098,7296.46676 C46.4032359,7293.98379 45.0330649,7289.44985 46.8734421,7286.3899 C47.7875635,7284.87092 49.4206455,7283.90793 51.1942837,7283.88393 C52.5422083,7283.85893 53.8153044,7284.75292 54.6394294,7284.75292 C55.4635543,7284.75292 57.0106846,7283.67793 58.6366882,7283.83593 C59.3172232,7283.86293 61.2283842,7284.09893 62.4549652,7285.8199 C62.355868,7285.8789 60.1747177,7287.09489 60.1989864,7289.62485"
                           id="apple-[#173]"
+                          fill="#FFFFFF"
                         ></path>
                       </g>
                     </g>

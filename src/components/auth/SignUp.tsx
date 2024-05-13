@@ -185,7 +185,7 @@ export const SignUp = (props: any) => {
                 CONFIRM PASSWORD
               </label>
               <input
-                type="confirm"
+                type="password"
                 id="confirm"
                 onChange={userInput}
                 name="confirm"
