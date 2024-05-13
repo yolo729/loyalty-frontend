@@ -52,14 +52,11 @@ const routeList: RouteProps[] = [
   },
   {
     href: "#CONTACKS",
-    label: "CONTACKS"
+    label: "CONTACKS",
   },
-
-
 ];
 
 export const Navbar = () => {
-
   const [userInfo, setUserInfo] = useState({
     Token: "",
     user_id: "",
@@ -79,7 +76,7 @@ export const Navbar = () => {
         user_name: user_name || "",
       });
     }
-  }, [])
+  }, []);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
@@ -87,10 +84,7 @@ export const Navbar = () => {
       <NavigationMenu className="h-40 bg-white mx-auto">
         <NavigationMenuList className="container  h-14 px-4 w-screen flex justify-between ">
           <NavigationMenuItem className="font-bold flex">
-            <a
-              href="/"
-              className="ml-2 font-bold text-xl flex"
-            >
+            <a href="/" className="ml-2 font-bold text-xl flex">
               <img
                 src={cubeLeg}
                 className="w-[150px] md:w-[250px] lg:w-[300px] object-contain"
@@ -101,11 +95,7 @@ export const Navbar = () => {
 
           {/* mobile */}
           <span className="flex md:hidden">
-
-            <Sheet
-              open={isOpen}
-              onOpenChange={setIsOpen}
-            >
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger className="px-2">
                 <Menu
                   className="flex md:hidden h-5 w-5"
@@ -149,25 +139,25 @@ export const Navbar = () => {
                 {route.label}
               </a>
             ))}
-            {
-              !token ?
-                (<a
-                  key="SIGNIN"
-                  href='signin'
-                  onClick={() => setIsOpen(false)}
-                  className={buttonVariants({ variant: "ghost" })}
-                >
-                  SIGNIN
-                </a>) :
-                (<a
-                  key="SIGNIN"
-                  href='signin'
-                  onClick={() => setIsOpen(false)}
-                  className={buttonVariants({ variant: "ghost" })}
-                >
-                  {userInfo.user_name}
-                </a>)
-            }
+            {!token ? (
+              <a
+                key="SIGNIN"
+                href="signin"
+                onClick={() => setIsOpen(false)}
+                className={buttonVariants({ variant: "ghost" })}
+              >
+                SIGNIN
+              </a>
+            ) : (
+              <a
+                key="SIGNIN"
+                href="signin"
+                onClick={() => setIsOpen(false)}
+                className={buttonVariants({ variant: "ghost" })}
+              >
+                {userInfo.user_name}
+              </a>
+            )}
           </nav>
         </NavigationMenuList>
       </NavigationMenu>
