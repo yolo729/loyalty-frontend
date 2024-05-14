@@ -6,9 +6,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>Westside Market NYC</title>
-    <meta name="title" content="Shadcn/React - Landing template" />
+    <meta name="title" content="Westside Market NYC" />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Shadcn/React - Landing template" />
+    <meta property="og:title" content="Westside Market NYC" />
+
+    <script type="text/javascript"> 
+window._zrl = window._zrl || [];
+
+/* Merchant needs to generate JWT token using API key from the backend. The sample code in Python and Java to generate the JWT is mentioned below in this article  */ 
+let jwt_token = get_jwt_token() /* Fetch JWT token from backend */
+
+let init_data = {
+        'partner_id' : 'your_partner_id',         
+        /*REQUIRED: Partner ID*/
+        'jwt_token' : 'your-customer-jwt-token',          
+        /*REQUIRED: jwt_token*/
+        'version' : 'v2',          
+        /*REQUIRED: version*/
+        'server' : 'https://app.zinrelo.com',          
+        /*REQUIRED: server */
+}
+ _zrl.push( [ 'init' , init_data ] ); 
+</script> 
+<script src="//cdn.zinrelo.com/js/all.js" type="text/javascript"></script>
 
   <body style="background-color: #efefef; font-family: Roboto">
     <div id="root"></div>

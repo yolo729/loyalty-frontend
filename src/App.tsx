@@ -2,6 +2,7 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SignIn } from "./components/auth/SignIn";
+import { Dashboard } from "./components/ZinreloRewards/Dashboard";
 import { SignUp } from "./components/auth/SignUp";
 import { Navbar } from "./components/Navbar";
 import { Profile } from "./components/Profile";
@@ -35,6 +36,7 @@ function App() {
               path="/signup"
               render={(props) => <SignUp {...props} useToast={useToast} />}
             />
+            <Route path="/wesite_rewards" component={Dashboard} />
           </Switch>
         </BrowserRouter>
         <Footer />

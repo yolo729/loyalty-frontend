@@ -13,7 +13,6 @@ export const SignIn = (props: any) => {
     password: "",
   });
   const his = useHistory();
-
   const onSub = async (e: any) => {
     e.preventDefault();
     axios
@@ -64,7 +63,7 @@ export const SignIn = (props: any) => {
   const googleLogin = useGoogleLogin({
     onSuccess: async ({ code }) => {
       await axios
-        .post("http://localhost:5000/api/auth/google", {
+        .post(`${apiUrl}/auth/google`, {
           code,
         })
         .then((response) => {
@@ -287,7 +286,7 @@ export const SignIn = (props: any) => {
               type="button"
               className="mt-2 w-full btn-outline-primary transition duration-300 ease-in-out focus:outline-none focus:shadow-outline rounded-full border border-blue-500 hover:bg-blue-500 text-blue-500 hover:text-white font-normal py-2 px-4"
             >
-              Create an Google
+              Create an Account
             </button>
           </a>{" "}
           <br />

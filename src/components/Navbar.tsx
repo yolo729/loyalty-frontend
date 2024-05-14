@@ -23,7 +23,7 @@ interface RouteProps {
 
 const routeList: RouteProps[] = [
   {
-    href: "#WESTSIDE REWARDS",
+    href: "wesite_rewards",
     label: "WESTSIDE REWARDS",
   },
   {
