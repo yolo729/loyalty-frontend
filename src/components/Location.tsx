@@ -75,24 +75,22 @@ export const Location = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pt-0 p-36">
         {features.map(
           ({ icon, title, description, footText }: FeatureProps, i) => (
-            <>
-              <div key={i}>
+            <div key={i}>
+              <div>
+                <img
+                  src={icon}
+                  alt="About feature"
+                  className="w-[200px] lg:w-[300px] mx-auto"
+                />
                 <div>
-                  <img
-                    src={icon}
-                    alt="About feature"
-                    className="w-[200px] lg:w-[300px] mx-auto"
-                  />
-                  <div>
-                    <p className="p-4">{title}</p>
-                    <i className="p-4">{description}</i>
-                    <p className="p-4" style={{ color: "red" }}>
-                      {footText}
-                    </p>
-                  </div>
+                  <p className="p-4">{title}</p>
+                  <i className="p-4">{description}</i>
+                  <p className="p-4" style={{ color: "red" }}>
+                    {footText}
+                  </p>
                 </div>
               </div>
-            </>
+            </div>
           )
         )}
       </div>

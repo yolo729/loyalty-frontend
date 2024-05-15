@@ -71,7 +71,7 @@ export const SignUp = (props: any) => {
       });
     } else {
       axios
-        .post(`${apiUrl}/users`, user)
+        .post(`${apiUrl}/signup`, user)
         .then(() => {
           props.useToast({
             message: "Data saved successfully",

@@ -16,17 +16,18 @@ export const SignIn = (props: any) => {
   const onSub = async (e: any) => {
     e.preventDefault();
     axios
-      .post(`${apiUrl}/login`, user)
+      .post(`${apiUrl}/signin`, user)
       .then((response) => {
         const accessToken = response.data.accessToken;
         const decodedToken = jwtDecode(accessToken) as { payload: any };
-        const { userId, firstName, lastName, email } = decodedToken?.payload;
+        const { userId, firstName, lastName, email, zinrelo_token } =
+          decodedToken?.payload;
         console.log(decodedToken?.payload);
         localStorage.setItem("accessToken", accessToken);
         localStorage.setItem("userId", userId);
         localStorage.setItem("userName", firstName + " " + lastName);
         localStorage.setItem("userEmail", email);
-        localStorage.setItem("zinrelo_token", response.data.zinrelo);
+        localStorage.setItem("zinrelo_token", zinrelo_token);
         props.useToast({
           message: "Data saved successfully",
           type: "success",
