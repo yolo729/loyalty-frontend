@@ -138,7 +138,7 @@ export const SignUp = (props: any) => {
           New Account
         </h2>
         <form onSubmit={handleSubmit}>
-          {valid_token.length > 0 && valid_token[0].success === true ? (
+          {valid_token?.length > 0 && valid_token[0].success === true ? (
             <h3 className="textSuccess">{SuccessMsg}</h3>
           ) : (
             <h3 className="textError">{ErrorMsg} </h3>

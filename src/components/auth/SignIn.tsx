@@ -26,7 +26,7 @@ export const SignIn = (props: any) => {
         localStorage.setItem("userId", userId);
         localStorage.setItem("userName", firstName + " " + lastName);
         localStorage.setItem("userEmail", email);
-
+        localStorage.setItem("zinrelo_token", response.data.zinrelo);
         props.useToast({
           message: "Data saved successfully",
           type: "success",

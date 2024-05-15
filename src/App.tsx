@@ -16,9 +16,11 @@ function App() {
     toast(data.message, { type: data.type });
   };
 
+  const client_id = import.meta.env.VITE_CLIENT_ID;
+
   return (
     <>
-      <GoogleOAuthProvider clientId="503642990049-uf05bpmlnck8r9ltp3v318ftilkjr7gu.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={client_id}>
         <ToastContainer />
         <Navbar />
         <BrowserRouter>
