@@ -15,9 +15,8 @@ window._zrl = window._zrl || [];
 
 /* Merchant needs to generate JWT token using API key from the backend. The sample code in Python and Java to generate the JWT is mentioned below in this article  */ 
 let jwt_token = localStorage.getItem('zinrelo_token') /* Fetch JWT token from backend */
-const partner_id = import.meta.env.VITE_PARTNER_ID;
 let init_data = {
-        'partner_id' : partner_id,         
+        'partner_id' : 'd340d7d3da',         
         /*REQUIRED: Partner ID*/
         'jwt_token' : jwt_token,          
         /*REQUIRED: jwt_token*/
