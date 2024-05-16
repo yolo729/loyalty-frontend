@@ -23,7 +23,7 @@ interface RouteProps {
 
 const routeList: RouteProps[] = [
   {
-    href: "#WESTSIDE REWARDS",
+    href: "wesite_rewards",
     label: "WESTSIDE REWARDS",
   },
   {
@@ -52,22 +52,33 @@ const routeList: RouteProps[] = [
   },
   {
     href: "#CONTACKS",
-    label: "CONTACKS"
+    label: "CONTACKS",
   },
-
-
 ];
 
 export const Navbar = () => {
+  const [userInfo, setUserInfo] = useState({
+    Token: "",
+    user_id: "",
+    user_name: "",
+  });
 
-  const [token, setToken] = useState(false);
-  
-    useEffect(() => {
-      const Token = localStorage.getItem("accessToken");
-      if (Token) {
-        setToken(true);
-      }
-    }, [])
+  const [token, setToken] = useState(
+    localStorage.getItem("accessToken") ? true : false
+  );
+  useEffect(() => {
+    const Token = localStorage.getItem("accessToken");
+    const user_id = localStorage.getItem("userId");
+    const user_name = localStorage.getItem("userName");
+    if (Token) {
+      setToken(true);
+      setUserInfo({
+        Token: Token,
+        user_id: user_id || "",
+        user_name: user_name || "",
+      });
+    }
+  }, []);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   return (
@@ -75,10 +86,7 @@ export const Navbar = () => {
       <NavigationMenu className="h-40 bg-white mx-auto">
         <NavigationMenuList className="container  h-14 px-4 w-screen flex justify-between ">
           <NavigationMenuItem className="font-bold flex">
-            <a
-              href="/"
-              className="ml-2 font-bold text-xl flex"
-            >
+            <a href="/" className="ml-2 font-bold text-xl flex">
               <img
                 src={cubeLeg}
                 className="w-[150px] md:w-[250px] lg:w-[300px] object-contain"
@@ -89,11 +97,7 @@ export const Navbar = () => {
 
           {/* mobile */}
           <span className="flex md:hidden">
-
-            <Sheet
-              open={isOpen}
-              onOpenChange={setIsOpen}
-            >
+            <Sheet open={isOpen} onOpenChange={setIsOpen}>
               <SheetTrigger className="px-2">
                 <Menu
                   className="flex md:hidden h-5 w-5"
@@ -137,25 +141,27 @@ export const Navbar = () => {
                 {route.label}
               </a>
             ))}
-            {
-              (!token) ?
+            {!token ? (
+              <a
+                key="SIGNIN"
+                href="signin"
+                onClick={() => setIsOpen(false)}
+                className={buttonVariants({ variant: "ghost" })}
+              >
+                SIGNIN
+              </a>
+            ) : (
+              <div className="text-[red]">
                 <a
                   key="SIGNIN"
-                  href='signin'
+                  href="/"
                   onClick={() => setIsOpen(false)}
                   className={buttonVariants({ variant: "ghost" })}
                 >
-                  SIGNIN
-                </a> :
-                <a
-                  key="SIGNIN"
-                  href='signin'
-                  onClick={() => setIsOpen(false)}
-                  className={buttonVariants({ variant: "ghost" })}
-                >
-                  WELCOME
+                  WELCOME {userInfo.user_name}
                 </a>
-            }
+              </div>
+            )}
           </nav>
         </NavigationMenuList>
       </NavigationMenu>

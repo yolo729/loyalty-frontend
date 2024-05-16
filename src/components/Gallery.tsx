@@ -17,7 +17,6 @@ import image13 from "../assets/WM_Sand_1500x600_Home.jpg";
 import image14 from "../assets/WM_Seafood_1500x600_Home.jpg";
 import image15 from "../assets/WM_Sushi_1500x600_Home.jpg";
 
-
 interface CarouselProps {
   title: string;
   image: string;
@@ -95,20 +94,18 @@ export const Gallery = () => {
     fade: true,
     autoplay: true,
     speed: 700,
-    adaptiveHeight: true
+    adaptiveHeight: true,
   };
 
   return (
     <>
-      <section
-        id="about"
-        className="container bg-white px-0 sm:py-12"
-      >
+      <section id="about" className="container bg-white px-0 sm:py-12">
         <div>
           <Slider {...settings}>
-            {Carousel.map(({ title, image }: CarouselProps) => (
-              <div>
+            {Carousel.map(({ title, image }: CarouselProps, i) => (
+              <div key={i}>
                 <img
+                  key={image.charAt(image.length - 1)}
                   src={image}
                   alt={title}
                 />
@@ -116,7 +113,6 @@ export const Gallery = () => {
             ))}
           </Slider>
         </div>
-
       </section>
     </>
   );
