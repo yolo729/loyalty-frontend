@@ -63,7 +63,9 @@ export const Navbar = () => {
     user_name: "",
   });
 
-  const [token, setToken] = useState(false);
+  const [token, setToken] = useState(
+    localStorage.getItem("accessToken") ? true : false
+  );
   useEffect(() => {
     const Token = localStorage.getItem("accessToken");
     const user_id = localStorage.getItem("userId");

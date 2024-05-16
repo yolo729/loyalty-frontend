@@ -1,20 +1,28 @@
-import { useState } from "react";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from "jwt-decode";
 import { useHistory } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
+import { useFormik } from "formik";
+import { loginSchema } from "./validations";
 
 export const SignIn = (props: any) => {
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
   const his = useHistory();
-  const onSub = async (e: any) => {
-    e.preventDefault();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginSchema,
+    onSubmit: (values) => {
+      onSubmit(values);
+    },
+  });
+
+  const onSubmit = async (user: any) => {
+    // e.preventDefault();
     axios
       .post(`${apiUrl}/signin`, user)
       .then((response) => {
@@ -32,7 +40,8 @@ export const SignIn = (props: any) => {
           message: "Data saved successfully",
           type: "success",
         });
-        his.push("/");
+        // his.push("/");
+        his.go(-1);
       })
       .catch((error) => {
         if (error.response) {
@@ -42,17 +51,6 @@ export const SignIn = (props: any) => {
           });
         }
       });
-  };
-
-  const userInput = (event: any) => {
-    const { name, value } = event.target;
-
-    setUser((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
   };
 
   // const hasAccess = hasGrantedAllScopesGoogle(
@@ -108,34 +106,57 @@ export const SignIn = (props: any) => {
               <p className="text-3xl md:text-3xl text-black font-bold">
                 Enter your email address to log in or create an account
               </p>
-              <form onSubmit={onSub} className="mt-6">
+              <form onSubmit={formik.handleSubmit} className="mt-6">
                 <div>
-                  <label className="block text-white text-gray-700">
-                    Email Address
-                  </label>
+                  <span className="flex justify-between items-center">
+                    <label
+                      htmlFor="email"
+                      className="text-sm font-medium text-gray-600"
+                    >
+                      EMAIL ADDRESS
+                    </label>
+                    <span className="text-red-600 text-xs">
+                      {formik.touched.email && formik.errors.email ? (
+                        <div className="error">{formik.errors.email}</div>
+                      ) : null}
+                    </span>
+                  </span>
                   <input
                     type="email"
                     name="email"
-                    id=""
-                    value={user.email}
-                    onChange={userInput}
+                    id="email"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.email}
                     placeholder="Enter Email Address"
                     className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
-                    required
                   />
                 </div>
 
                 <div className="mt-4">
+                  <span className="flex justify-between items-center">
+                    <label
+                      htmlFor="password"
+                      className="text-sm font-medium text-gray-600"
+                    >
+                      PASSWORD
+                    </label>
+                    <span className="text-red-600 text-xs">
+                      {formik.touched.password && formik.errors.password ? (
+                        <div className="error">{formik.errors.password}</div>
+                      ) : null}
+                    </span>
+                  </span>
                   <input
                     type="password"
                     name="password"
-                    value={user.password}
-                    onChange={userInput}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
                     id="password"
                     placeholder="Enter Password"
                     className="w-full px-4 py-3 rounded-full bg-gray-200 mt-2 border focus:border-blue-500
                   focus:bg-white focus:outline-none"
-                    required
                   />
                 </div>
                 <button

@@ -3,6 +3,8 @@ import ReCAPTCHA from "react-google-recaptcha";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom";
+import { useFormik } from "formik";
+import { signupSchema } from "./validations";
 
 export const SignUp = (props: any) => {
   interface ReCaptchaRef {
@@ -21,19 +23,6 @@ export const SignUp = (props: any) => {
   const [SuccessMsg, setSuccessMsg] = useState("");
   const [ErrorMsg, setErrorMsg] = useState("");
   const [valid_token, setValidToken] = useState<{ success: boolean }[]>([]);
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-    confirm: "",
-    birthday: "",
-    firstname: "",
-    lastname: "",
-    phone: "",
-    country: "",
-    postcode: "",
-    address1: "",
-    address2: "",
-  });
 
   const his = useHistory();
 
@@ -52,8 +41,38 @@ export const SignUp = (props: any) => {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirm: "",
+      birthday: "",
+      firstname: "",
+      lastname: "",
+      phone: "",
+      country: 0,
+      province: 0,
+      postcode: "",
+      address1: "",
+      address2: "",
+      preference: 1,
+      _store1407: 0,
+      _store170: 0,
+      _store180: 0,
+      _store2589: 0,
+      _store2840: 0,
+      _store77: 0,
+      _store84: 0,
+      _store_may: 0,
+    },
+    validationSchema: signupSchema,
+    onSubmit: (values) => {
+      onSubmit(values);
+    },
+  });
+
+  const onSubmit = async (user: any) => {
+    // e.preventDefault();
     const reCaptchaToken = recaptchaRef.current?.getValue();
     if (!reCaptchaToken) {
       props.useToast({
@@ -64,40 +83,40 @@ export const SignUp = (props: any) => {
       return;
     }
 
-    if (user.password !== user.confirm) {
-      props.useToast({
-        message: "Not match",
-        type: "warning",
-      });
-    } else {
-      axios
-        .post(`${apiUrl}/signup`, user)
-        .then(() => {
-          props.useToast({
-            message: "Data saved successfully",
-            type: "success",
-          });
-          his.push("/signin");
-        })
-        .catch((error) => {
-          if (error.response) {
-            props.useToast({
-              message: "Backend error",
-              type: "error",
-            });
-          } else if (error.request) {
-            props.useToast({
-              message: "Backend error",
-              type: "error",
-            });
-          } else {
-            props.useToast({
-              message: "Backend error",
-              type: "error",
-            });
-          }
+    // if (user.password !== user.confirm) {
+    //   props.useToast({
+    //     message: "Not match",
+    //     type: "warning",
+    //   });
+    // } else {
+    axios
+      .post(`${apiUrl}/signup`, user)
+      .then(() => {
+        props.useToast({
+          message: "Data saved successfully",
+          type: "success",
         });
-    }
+        his.push("/signin");
+      })
+      .catch((error) => {
+        if (error.response) {
+          props.useToast({
+            message: "Backend error",
+            type: "error",
+          });
+        } else if (error.request) {
+          props.useToast({
+            message: "Backend error",
+            type: "error",
+          });
+        } else {
+          props.useToast({
+            message: "Backend error",
+            type: "error",
+          });
+        }
+      });
+    // }
   };
 
   const verifyToken = async (token: any) => {
@@ -110,7 +129,7 @@ export const SignUp = (props: any) => {
       });
 
       props.useToast({
-        message: "passed verify",
+        message: "Human verification was done",
         type: "success",
       });
       APIResponse.push(response["data"]);
@@ -120,24 +139,13 @@ export const SignUp = (props: any) => {
     }
   };
 
-  const userInput = (event: any) => {
-    const { name, value } = event.target;
-
-    setUser((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
-  };
-
   return (
     <section className="container bg-white">
       <div className="p-8 w-full my-16 pt-8 p-32">
         <h2 className="text-[#173B4C] mb-6 text-center text-3xl md:text-4xl font-bold">
           New Account
         </h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           {valid_token?.length > 0 && valid_token[0].success === true ? (
             <h3 className="textSuccess">{SuccessMsg}</h3>
           ) : (
@@ -145,52 +153,75 @@ export const SignUp = (props: any) => {
           )}
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label
-                htmlFor="email"
-                className="text-sm font-medium text-gray-600"
-              >
-                EMAIL ADDRESS
-              </label>
+              <span className="flex justify-between items-center">
+                <label
+                  htmlFor="email"
+                  className="text-sm font-medium text-gray-600"
+                >
+                  EMAIL ADDRESS
+                </label>
+                <span className="text-red-600 text-xs">
+                  {formik.touched.email && formik.errors.email ? (
+                    <div className="error">{formik.errors.email}</div>
+                  ) : null}
+                </span>
+              </span>
               <input
                 type="text"
                 id="email"
-                onChange={userInput}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.email}
                 name="email"
                 className="mt-1 p-2 w-full border text-gray-800"
-                required
               />
             </div>
             <div>
-              <label
-                htmlFor="password"
-                onChange={userInput}
-                className="text-sm font-medium text-gray-600"
-              >
-                PASSWORD
-              </label>
+              <span className="flex justify-between items-center">
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium text-gray-600"
+                >
+                  PASSWORD
+                </label>
+                <span className="text-red-600 text-xs">
+                  {formik.touched.password && formik.errors.password ? (
+                    <div className="error">{formik.errors.password}</div>
+                  ) : null}
+                </span>
+              </span>
               <input
                 type="password"
-                onChange={userInput}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.password}
                 id="password"
                 name="password"
                 className="mt-1 p-2 w-full border text-gray-800"
-                required
               />
             </div>
             <div>
-              <label
-                htmlFor="confirm"
-                className="text-sm font-medium text-gray-600"
-              >
-                CONFIRM PASSWORD
-              </label>
+              <span className="flex justify-between items-center">
+                <label
+                  htmlFor="confirm"
+                  className="text-sm font-medium text-gray-600"
+                >
+                  CONFIRM PASSWORD
+                </label>
+                <span className="text-red-600 text-xs">
+                  {formik.touched.confirm && formik.errors.confirm ? (
+                    <div className="error">{formik.errors.confirm}</div>
+                  ) : null}
+                </span>
+              </span>
               <input
                 type="password"
                 id="confirm"
-                onChange={userInput}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.confirm}
                 name="confirm"
                 className="mt-1 p-2 w-full border text-gray-800"
-                required
               />
             </div>
             <br />
@@ -211,17 +242,25 @@ export const SignUp = (props: any) => {
               </label>
             </div>
             <div className="w-48">
-              <label
-                htmlFor="Preference"
-                className="text-sm font-medium text-gray-600"
-              >
-                Contact Preference
-              </label>
+              <span className="flex justify-between items-center">
+                <label
+                  htmlFor="preference"
+                  className="text-sm font-medium text-gray-600"
+                >
+                  Contact Preference
+                </label>
+                <span className="text-red-600 text-xs">
+                  {formik.touched.preference && formik.errors.preference ? (
+                    <div className="error">{formik.errors.preference}</div>
+                  ) : null}
+                </span>
+              </span>
               <select
-                defaultValue={1}
-                onChange={userInput}
-                id="Preference"
-                name="Preference"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.confirm}
+                id="preference"
+                name="preference"
                 className="mt-1 p-2 w-full border text-gray-800"
               >
                 <option value={1}>Email</option>
@@ -233,103 +272,200 @@ export const SignUp = (props: any) => {
                 htmlFor="referred"
                 className="md:text-2xl text-sm font-medium text-gray-600 pt-5"
               >
-                referred Stores
+                Preferred Stores
               </label>
               <div className="grid grid-cols-2 pt-5 gap-4">
                 <div>
-                  <input className="p-2" onChange={userInput} type="checkbox" />
+                  <input
+                    className="p-2"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values._store1407}
+                    type="checkbox"
+                    id="_store1407"
+                    name="_store1407"
+                  />
                   <span className="p-2">1407 Lexington Avenue</span>
                 </div>
                 <div>
-                  <input className="p-2" onChange={userInput} type="checkbox" />
+                  <input
+                    className="p-2"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values._store2840}
+                    type="checkbox"
+                    id="_store2840"
+                    name="_store2840"
+                  />
                   <span className="p-2">2840 Broadway</span>
                 </div>
                 <div>
-                  <input className="p-2" onChange={userInput} type="checkbox" />
+                  <input
+                    className="p-2"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values._store170}
+                    type="checkbox"
+                    id="_store170"
+                    name="_store170"
+                  />
                   <span className="p-2">170 West 23rd Street</span>
                 </div>
                 <div>
-                  <input className="p-2" onChange={userInput} type="checkbox" />
+                  <input
+                    className="p-2"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values._store77}
+                    type="checkbox"
+                    id="_store77"
+                    name="_store77"
+                  />
                   <span className="p-2">77 Seventh Ave</span>
                 </div>
                 <div>
-                  <input className="p-2" onChange={userInput} type="checkbox" />
+                  <input
+                    className="p-2"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values._store180}
+                    type="checkbox"
+                    id="_store180"
+                    name="_store180"
+                  />
                   <span className="p-2">180 Third Ave</span>
                 </div>
                 <div>
-                  <input className="p-2" onChange={userInput} type="checkbox" />
+                  <input
+                    className="p-2"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values._store84}
+                    type="checkbox"
+                    id="_store84"
+                    name="_store84"
+                  />
                   <span className="p-2">84 Third Ave</span>
                 </div>
                 <div>
-                  <input className="p-2" onChange={userInput} type="checkbox" />
+                  <input
+                    className="p-2"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values._store2589}
+                    type="checkbox"
+                    id="_store2589"
+                    name="_store2589"
+                  />
                   <span className="p-2">2589 Broadway</span>
                 </div>
                 <div>
-                  <input className="p-2" type="checkbox" />
+                  <input
+                    className="p-2"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values._store_may}
+                    type="checkbox"
+                    id="_store_may"
+                    name="_store_may"
+                  />
                   <span className="p-2">Maywood's Market</span>
                 </div>
               </div>
             </div>
             <div className="w-48">
-              <label
-                htmlFor="birthday"
-                className="text-sm font-medium text-gray-600"
-              >
-                BIRTHDAY
-              </label>
+              <span className="flex justify-between items-center">
+                <label
+                  htmlFor="birthday"
+                  className="text-sm font-medium text-gray-600"
+                >
+                  BIRTHDAY
+                </label>
+                <span className="text-red-600 text-xs">
+                  {formik.touched.birthday && formik.errors.birthday ? (
+                    <div className="error">{formik.errors.birthday}</div>
+                  ) : null}
+                </span>
+              </span>
               <input
                 type="date"
                 id="birthday"
-                onChange={userInput}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.birthday}
                 name="birthday"
                 className="mt-1 p-2 w-full border text-gray-800"
-                required
               />
             </div>
             <hr className="w-[87rem]" /> <br />
             <div>
-              <label
-                htmlFor="firstname"
-                className="text-sm font-medium text-gray-600"
-              >
-                FIRST NAME
-              </label>
+              <span className="flex justify-between items-center">
+                <label
+                  htmlFor="firstname"
+                  className="text-sm font-medium text-gray-600"
+                >
+                  FIRST NAME
+                </label>
+                <span className="text-red-600 text-xs">
+                  {formik.touched.firstname && formik.errors.firstname ? (
+                    <div className="error">{formik.errors.firstname}</div>
+                  ) : null}
+                </span>
+              </span>
               <input
                 type="text"
                 id="firstname"
-                onChange={userInput}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.firstname}
                 name="firstname"
                 className="mt-1 p-2 w-full border text-gray-800"
-                required
               />
             </div>
             <div>
-              <label
-                htmlFor="lastname"
-                className="text-sm font-medium text-gray-600"
-              >
-                LAST NAME
-              </label>
+              <span className="flex justify-between items-center">
+                <label
+                  htmlFor="lastname"
+                  className="text-sm font-medium text-gray-600"
+                >
+                  LAST NAME
+                </label>
+                <span className="text-red-600 text-xs">
+                  {formik.touched.lastname && formik.errors.lastname ? (
+                    <div className="error">{formik.errors.lastname}</div>
+                  ) : null}
+                </span>
+              </span>
               <input
                 type="text"
                 id="lastname"
-                onChange={userInput}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.lastname}
                 name="lastname"
                 className="mt-1 p-2 w-full border text-gray-800"
-                required
               />
             </div>
             <div>
-              <label
-                htmlFor="phone"
-                className="text-sm font-medium text-gray-600"
-              >
-                PHONE NUMBER
-              </label>
+              <span className="flex justify-between items-center">
+                <label
+                  htmlFor="phone"
+                  className="text-sm font-medium text-gray-600"
+                >
+                  PHONE NUMBER
+                </label>
+                <span className="text-red-600 text-xs">
+                  {formik.touched.phone && formik.errors.phone ? (
+                    <div className="error">{formik.errors.phone}</div>
+                  ) : null}
+                </span>
+              </span>
               <input
-                type="number"
+                type="text"
                 id="phone"
-                onChange={userInput}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.phone}
                 name="phone"
                 className="mt-1 p-2 w-full border text-gray-800"
               />
@@ -343,7 +479,9 @@ export const SignUp = (props: any) => {
               </label>
               <select
                 defaultValue={1}
-                onChange={userInput}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.country}
                 id="country"
                 name="country"
                 className="mt-1 p-2 w-full border text-gray-800"
@@ -353,31 +491,49 @@ export const SignUp = (props: any) => {
               </select>
             </div>
             <div>
-              <label
-                htmlFor="address1"
-                className="text-sm font-medium text-gray-600"
-              >
-                ADDRESS LINE 1
-              </label>
+              <span className="flex justify-between items-center">
+                <label
+                  htmlFor="address1"
+                  className="text-sm font-medium text-gray-600"
+                >
+                  ADDRESS LINE 1
+                </label>
+                <span className="text-red-600 text-xs">
+                  {formik.touched.address1 && formik.errors.address1 ? (
+                    <div className="error">{formik.errors.address1}</div>
+                  ) : null}
+                </span>
+              </span>
               <input
                 type="text"
-                onChange={userInput}
                 id="address1"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.address1}
                 name="address1"
                 className="mt-1 p-2 w-full border text-gray-800"
               />
             </div>
             <div>
-              <label
-                htmlFor="address2"
-                className="text-sm font-medium text-gray-600"
-              >
-                ADDRESS LINE 2
-              </label>
+              <span className="flex justify-between items-center">
+                <label
+                  htmlFor="address2"
+                  className="text-sm font-medium text-gray-600"
+                >
+                  ADDRESS LINE 2
+                </label>
+                <span className="text-red-600 text-xs">
+                  {formik.touched.address2 && formik.errors.address2 ? (
+                    <div className="error">{formik.errors.address2}</div>
+                  ) : null}
+                </span>
+              </span>
               <input
                 type="text"
-                onChange={userInput}
                 id="address2"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.address2}
                 name="address2"
                 className="mt-1 p-2 w-full border text-gray-800"
               />
@@ -391,7 +547,9 @@ export const SignUp = (props: any) => {
               </label>
               <select
                 defaultValue={1}
-                onChange={userInput}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.province}
                 id="province"
                 name="province"
                 className="mt-1 p-2 w-full border text-gray-800"
@@ -403,16 +561,25 @@ export const SignUp = (props: any) => {
               </select>
             </div>
             <div>
-              <label
-                htmlFor="postcode"
-                className="text-sm font-medium text-gray-600"
-              >
-                ZIP/POSTCODE
-              </label>
+              <span className="flex justify-between items-center">
+                <label
+                  htmlFor="postcode"
+                  className="text-sm font-medium text-gray-600"
+                >
+                  ZIP/POSTCODE
+                </label>
+                <span className="text-red-600 text-xs">
+                  {formik.touched.postcode && formik.errors.postcode ? (
+                    <div className="error">{formik.errors.postcode}</div>
+                  ) : null}
+                </span>
+              </span>
               <input
                 type="text"
                 id="postcode"
-                onChange={userInput}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.postcode}
                 name="postcode"
                 className="mt-1 p-2 w-full border text-gray-800"
               />

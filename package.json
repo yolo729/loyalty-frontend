@@ -32,6 +32,7 @@
     "clsx": "^2.0.0",
     "dotenv": "^16.4.5",
     "dropdown": "^0.2.0",
+    "formik": "^2.4.6",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.294.0",
@@ -50,7 +51,8 @@
     "tailwindcss-animate": "^1.0.7",
     "use-context-selector": "^2.0.0",
     "use-history": "^1.4.1",
-    "user-context": "^1.0.14"
+    "user-context": "^1.0.14",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.6",
