@@ -40,8 +40,7 @@ export const SignIn = (props: any) => {
           message: "Data saved successfully",
           type: "success",
         });
-        // his.push("/");
-        his.go(-1);
+        his.push("/");
       })
       .catch((error) => {
         if (error.response) {
@@ -62,21 +61,11 @@ export const SignIn = (props: any) => {
   const googleLogin = useGoogleLogin({
     onSuccess: async ({ code }) => {
       await axios
-        .post(`${apiUrl}/auth/google`, {
+        .post(`${apiUrl}/auth/signinGoogle`, {
           code,
         })
         .then((response) => {
-          console.log(response, "fefefef");
-          return;
-          const accessToken = response.data.accessToken;
-          const decodedToken = jwtDecode(accessToken) as { payload: any };
-          const { userId, firstName, lastName, email } = decodedToken?.payload;
-          console.log(decodedToken?.payload);
-          localStorage.setItem("accessToken", accessToken);
-          localStorage.setItem("userId", userId);
-          localStorage.setItem("userName", firstName + " " + lastName);
-          localStorage.setItem("userEmail", email);
-
+          console.log("google login------------", response);
           props.useToast({
             message: "Data saved successfully",
             type: "success",
@@ -84,7 +73,7 @@ export const SignIn = (props: any) => {
           his.push("/");
         })
         .catch((error) => {
-          alert();
+          console.log("google login-----error--", error);
           if (error.response) {
             props.useToast({
               message: "Not correct the mail or password",
@@ -96,6 +85,32 @@ export const SignIn = (props: any) => {
     flow: "auth-code",
   });
 
+  const googleSignUp = useGoogleLogin({
+    onSuccess: async ({ code }) => {
+      await axios
+        .post(`${apiUrl}/auth/signupGoogle`, {
+          code,
+        })
+        .then((response) => {
+          console.log("signup with google-----------", response);
+          props.useToast({
+            message: "Data saved successfully",
+            type: "success",
+          });
+          his.push("/signin");
+        })
+        .catch((error) => {
+          console.log("google login-------", error);
+          if (error.response) {
+            props.useToast({
+              message: "Not correct the mail or password",
+              type: "error",
+            });
+          }
+        });
+    },
+    flow: "auth-code",
+  });
   return (
     <section className="container bg-[whitesmoke]">
       <div className="pt-[5%] grid lg:grid-cols-[1fr,1fr] gap-8 place-items-center pt-0 p-32">
@@ -164,7 +179,7 @@ export const SignIn = (props: any) => {
                   className="transform hover:scale-[1.1] duration-500 w-full block bg-[gray] hover:bg-[#E5E7EB] focus:bg-[#E5E7EB] text-white font-semibold rounded-full
                 px-4 py-3 mt-6"
                 >
-                  Countinue
+                  Continue
                 </button>
               </form>
 
@@ -315,10 +330,10 @@ export const SignIn = (props: any) => {
           <div className="bg-white rounded-lg p-5 mt-2 shadow-lg">
             <div className=" px-4">
               <button
-                onClick={() => googleLogin()}
+                onClick={() => googleSignUp()}
                 className="transform hover:scale-[1.1] duration-500 flex justify-around items-center text-center w-full my-0 mx-auto py-2 px-2 rounded-full font-medium shadow-lg rounded bg-white hover:bg-four"
               >
-                <span className="w-5/6">Continue with Google</span>
+                <span className="w-5/6">Create with Google</span>
                 <svg
                   className="h-6 w-6 mr-2"
                   xmlns="http://www.w3.org/2000/svg"
@@ -375,7 +390,7 @@ export const SignIn = (props: any) => {
               </button>{" "}
               <br />
               <button className="transform hover:scale-[1.1] duration-500 flex justify-around items-center text-center h-10 w-full my-0 mx-auto py-2 px-2 rounded-full font-medium shadow-lg text-black bg-[#3B4DD2] rounded bg-white hover:bg-four">
-                <span className="w-5/6">Continue with FaceBook</span>
+                <span className="w-5/6">Create with FaceBook</span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="40"
@@ -396,7 +411,7 @@ export const SignIn = (props: any) => {
                 style={{ border: "1px solid cadetblue" }}
                 className="transform hover:scale-[1.1] duration-500 border-[#243c5a] flex justify-around items-center text-center w-full my-0 mx-auto py-2 px-2 rounded-full font-medium shadow-lg text-white rounded bg-[cadetblue] hover:bg-four "
               >
-                <span className="w-5/6">Continue with Apple</span>
+                <span className="w-5/6">Create with Apple</span>
                 <svg
                   className="h-6 w-6 mr-2"
                   xmlns="http://www.w3.org/2000/svg"
