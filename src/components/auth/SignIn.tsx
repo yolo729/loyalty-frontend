@@ -21,21 +21,25 @@ export const SignIn = (props: any) => {
     },
   });
 
+  const setLocalStorage = (accessToken: string) => {
+    const decodedToken = jwtDecode(accessToken) as { payload: any };
+    const { userId, firstName, lastName, email, zinrelo_token } =
+      decodedToken?.payload;
+    console.log(decodedToken?.payload);
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("userId", userId);
+    localStorage.setItem("userName", firstName + " " + lastName);
+    localStorage.setItem("userEmail", email);
+    localStorage.setItem("zinrelo_token", zinrelo_token);
+  };
+
   const onSubmit = async (user: any) => {
     // e.preventDefault();
     axios
       .post(`${apiUrl}/signin`, user)
       .then((response) => {
         const accessToken = response.data.accessToken;
-        const decodedToken = jwtDecode(accessToken) as { payload: any };
-        const { userId, firstName, lastName, email, zinrelo_token } =
-          decodedToken?.payload;
-        console.log(decodedToken?.payload);
-        localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("userId", userId);
-        localStorage.setItem("userName", firstName + " " + lastName);
-        localStorage.setItem("userEmail", email);
-        localStorage.setItem("zinrelo_token", zinrelo_token);
+        setLocalStorage(accessToken);
         props.useToast({
           message: "Data saved successfully",
           type: "success",
@@ -60,12 +64,14 @@ export const SignIn = (props: any) => {
 
   const googleLogin = useGoogleLogin({
     onSuccess: async ({ code }) => {
+      console.log("code--------", code);
       await axios
         .post(`${apiUrl}/auth/signinGoogle`, {
           code,
         })
         .then((response) => {
-          console.log("google login------------", response);
+          const accessToken = response.data.accessToken;
+          setLocalStorage(accessToken);
           props.useToast({
             message: "Data saved successfully",
             type: "success",
@@ -76,7 +82,7 @@ export const SignIn = (props: any) => {
           console.log("google login-----error--", error);
           if (error.response) {
             props.useToast({
-              message: "Not correct the mail or password",
+              message: error.response.data.msg,
               type: "error",
             });
           }
