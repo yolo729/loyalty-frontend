@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Dropdown } from "rsuite";
+import "rsuite/styles/index.less";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -62,6 +64,10 @@ export const Navbar = () => {
     user_id: "",
     user_name: "",
   });
+
+  const logouts = () => {
+    localStorage.clear();
+  };
 
   const [token, setToken] = useState(
     localStorage.getItem("accessToken") ? true : false
@@ -151,15 +157,15 @@ export const Navbar = () => {
                 SIGNIN
               </a>
             ) : (
-              <div className="text-[red]">
-                <a
-                  key="SIGNIN"
-                  href="/"
-                  onClick={() => setIsOpen(false)}
-                  className={buttonVariants({ variant: "ghost" })}
-                >
-                  WELCOME {userInfo.user_name}
-                </a>
+              <div>
+                <Dropdown title={userInfo.user_name} noCaret>
+                  <a href="profile">
+                    <Dropdown.Item>Setting</Dropdown.Item>
+                  </a>
+                  <a href="/" onClick={logouts}>
+                    <Dropdown.Item>Log out</Dropdown.Item>
+                  </a>
+                </Dropdown>
               </div>
             )}
           </nav>

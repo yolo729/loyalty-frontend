@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useEffect } from "react";
 import "react-toastify/dist/ReactToastify.css";
 import { jwtDecode } from "jwt-decode";
 import { useHistory } from "react-router-dom";
@@ -20,6 +21,20 @@ export const SignIn = (props: any) => {
       onSubmit(values);
     },
   });
+
+  useEffect(() => {
+    let userAuthenticated = localStorage.getItem("accessToken");
+    if (!userAuthenticated) {
+      const checkAuthentication = async () => {
+        if (userAuthenticated) {
+          his.push("/signin");
+        }
+      };
+      checkAuthentication();
+    } else {
+      his.push("/");
+    }
+  }, []);
 
   const setLocalStorage = (accessToken: string) => {
     const decodedToken = jwtDecode(accessToken) as { payload: any };
